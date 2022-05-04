@@ -1,7 +1,10 @@
-﻿using Microsoft.UI;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
+using Windows.Graphics.Display;
+using WinUiAppWithPackageApp.Data;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -13,14 +16,40 @@ namespace WinUiAppWithPackageApp
     /// </summary>
     public partial class App : Application
     {
-        AppWindow appWindow;
+        /// <summary>
+        /// Gets the current <see cref="App"/> instance in use
+        /// </summary>
+        public new static App Current => (App)Application.Current;
+
+        /// <summary>
+        /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
+        /// </summary>
+        public IServiceProvider Services { get; }
+
+        private AppWindow appWindow;
+        private Window m_window;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
+            Services = ConfigureServices();
             this.InitializeComponent();
+        }
+
+        /// <summary>
+        /// Configures the services for the application.
+        /// </summary>
+        private static IServiceProvider ConfigureServices()
+        {
+            var services = new ServiceCollection();
+
+            //services.AddSingleton<IMyService, MyService>();
+            services.AddSingleton<CustomersService>();
+
+            return services.BuildServiceProvider();
         }
 
         /// <summary>
@@ -58,6 +87,5 @@ namespace WinUiAppWithPackageApp
             return AppWindow.GetFromWindowId(windowId);
         }
 
-        private Window m_window;
     }
 }

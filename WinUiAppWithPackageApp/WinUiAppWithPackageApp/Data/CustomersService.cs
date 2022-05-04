@@ -2,9 +2,9 @@
 
 namespace WinUiAppWithPackageApp.Data
 {
-    public static class CustomersService
+    public class CustomersService
     {
-        public static IEnumerable<Customer> GetAll()
+        public IEnumerable<Customer> GetAll()
         {
             return new List<Customer>
             {

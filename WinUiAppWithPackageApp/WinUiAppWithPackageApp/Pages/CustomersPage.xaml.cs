@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -25,10 +26,14 @@ namespace WinUiAppWithPackageApp.Pages
     /// </summary>
     public sealed partial class CustomersPage : Page
     {
+        private readonly CustomersService _customersService;
+
         public CustomersPage()
         {
+            _customersService = App.Current.Services.GetService<CustomersService>();
+
             this.InitializeComponent();
-            var customers = new ObservableCollection<Customer>(CustomersService.GetAll());
+            var customers = new ObservableCollection<Customer>(_customersService.GetAll());
             CustomersDatagrid.ItemsSource = customers;
         }
     }
