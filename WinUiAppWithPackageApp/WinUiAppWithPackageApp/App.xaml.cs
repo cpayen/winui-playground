@@ -3,8 +3,8 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
-using Windows.Graphics.Display;
 using WinUiAppWithPackageApp.Data;
+using WinUiAppWithPackageApp.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -46,8 +46,11 @@ namespace WinUiAppWithPackageApp
         {
             var services = new ServiceCollection();
 
-            //services.AddSingleton<IMyService, MyService>();
+            // Services
             services.AddSingleton<CustomersService>();
+
+            // ViewModels
+            services.AddSingleton<CustomersViewModel>();
 
             return services.BuildServiceProvider();
         }
